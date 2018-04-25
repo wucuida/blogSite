@@ -4,7 +4,7 @@
     <el-row>
       <el-col :span="13">
       <img src="../assets/logo.png" style="height:45px;float:left;padding-right:1%;padding-top:9px">
-      <span style="color: #aaa;height: 60px;line-height: 60px;font-weight: bold;">WUCD</span>
+      <span style="color: #aaa;height: 60px;line-height: 60px;font-weight: bold;">Vue</span>
       </el-col>
       <el-col :span="4" style="padding-right:1%">
         <el-input
@@ -13,7 +13,7 @@
           :size="'small'"
           placeholder="请输入内容"
           suffix-icon="el-icon-search"
-          v-model="input2">
+          v-model="searchContent">
         </el-input>
       </el-col>
       <el-col :span="7" >
@@ -28,7 +28,7 @@
         <el-menu-item index="2">Tags</el-menu-item>
         <el-menu-item index="3">Archives</el-menu-item>
         <el-menu-item index="4">Manager</el-menu-item>
-      </el-menu> 
+      </el-menu>
       </el-col>
     </el-row>
   </el-header>
@@ -46,7 +46,7 @@ export default {
       activeIndex: '1',
       activeIndex2: '1',
       headerCls: ["header-top",],
-      input2: ""
+      searchContent: ""
     }
   },
   components: {
@@ -57,9 +57,9 @@ export default {
       console.log(key, keyPath);
     },
     test() {
-    
+
     }
-  }, 
+  },
   created() {
     setTimeout(() => {
       this.tt = 3

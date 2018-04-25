@@ -1,15 +1,18 @@
 <template>
-<div>
+<div id="articleList">
   <el-main style="min-height:1000px;padding:80px 15% 0 15%;">
-    <transition-group name="el-zoom-in-top">   
+    <div v-html="content"></div>
+    <transition-group name="el-zoom-in-top">
       <article-item v-for="i in tt" :key="i"></article-item>
-    </transition-group> 
+    </transition-group>
   </el-main>
   <el-footer>
     <el-pagination
       background
       layout="prev, pager, next"
       style="text-align:center"
+      @current-change="refreshPage"
+      :page-size="limit"
       :total="1000">
     </el-pagination>
   </el-footer>
@@ -17,31 +20,404 @@
 </template>
 <script>
 import ArticleItem from "./ArticleItem"
+import Showdown from "showdown"
 export default {
   data() {
     return {
-      tt: 0,
+      convertor: "",
+      limit: 10,
+      tt: 3,
       content: "",
     }
   },
   components: {
     ArticleItem
   },
+  methods: {
+    refresh() {
+      this.$http.get("/api/articles", {
+        param: {
+          limit: this.limit,
+          cursor: this.cursor
+        }
+      }).then(rsp => {
+
+      })
+    },
+    refreshPage(currentPage) {
+      console.log(currentPage, "currentPage=")
+      this.$http.get("/api/articles", {
+        param: {
+          limit: this.limit,
+          cursor: (currentPage - 1) * this.limit
+        }
+      }).then(rsp => {
+
+      })
+    }
+  },
+  beforeCreate() {
+    this.convertor = new Showdown.Converter({tables: true});
+  },
   created() {
-    setTimeout(() => {
-      this.tt = 3
-      let converter = new showdown.Converter({'tables':true});
-      let t = '数据结构定义 \n'+
-        '| 字段 | 类型 | 必须 | 备注 | \n'+
-        '|------|------|------|------| \n'+
-        '| id | String | - | 文章标识，创建时间时间戳_4位随机数的格式 | \n'+
-        '| title | String | true | 文章标题 |\n'+
-        '| createTime | Long | true | 文章创建时间 | \n'+
-        '| updateTime | Long | true | 文章更新时间 | \n'+
-        '| location | String | true | 文章地址 |'
-      let html = converter.makeHtml(t);
-      this.content = html
-    }, 1000)
+    this.refresh()
+    // let html = converter.makeHtml(t);
   }
 }
 </script>
+<style type="text/css">
+#articleList {
+ font-family: "Microsoft Yahei", Helvetica, arial, sans-serif ;
+  font-size: 14px;
+  line-height: 1.6;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  padding: 30px 30px 0 30px;
+  color: #516272;
+}
+
+#articleList > *:first-child {
+  margin-top: 0 !important;
+}
+#articleList > *:last-child {
+  margin-bottom: 0 !important;
+}
+
+a {
+  color: #4183C4; }
+a.absent {
+  color: #cc0000; }
+a.anchor {
+  display: block;
+  padding-left: 30px;
+  margin-left: -30px;
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 20px 0 10px;
+  padding: 0;
+  font-weight: bold;
+  -webkit-font-smoothing: antialiased;
+  cursor: text;
+  position: relative;
+}
+
+h1 tt, h1 code {
+  font-size: inherit;
+}
+
+h2 tt, h2 code {
+  font-size: inherit;
+}
+
+h3 tt, h3 code {
+  font-size: inherit;
+}
+
+h4 tt, h4 code {
+  font-size: inherit;
+}
+
+h5 tt, h5 code {
+  font-size: inherit;
+}
+
+h6 tt, h6 code {
+  font-size: inherit;
+}
+
+h1 {
+  font-size: 28px;
+  color: #2B3F52;
+}
+
+h2 {
+  font-size: 24px;
+  border-bottom: 1px solid #DDE4E9;
+  color: #2B3F52;
+}
+
+h3 {
+  font-size: 18px;
+  color: #2B3F52;
+}
+
+h4 {
+  font-size: 16px;
+  color: #2B3F52;
+}
+
+h5 {
+  font-size: 14px;
+  color: #2B3F52;
+}
+
+h6 {
+  color: #2B3F52;
+  font-size: 14px;
+}
+
+p, blockquote, ul, ol, dl, li, table, pre {
+  margin: 15px 0;
+  color: #516272;  }
+
+#articleList > h2:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+#articleList > h1:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+#articleList > h1:first-child + h2 {
+  margin-top: 0;
+  padding-top: 0;
+}
+#articleList > h3:first-child, #articleList > h4:first-child, #articleList > h5:first-child, #articleList > h6:first-child {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+a:first-child h1, a:first-child h2, a:first-child h3, a:first-child h4, a:first-child h5, a:first-child h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+h1 p, h2 p, h3 p, h4 p, h5 p, h6 p {
+  margin-top: 0;
+}
+
+li p.first {
+  display: inline-block;
+}
+li {
+  margin: 0;
+}
+ul, ol {
+  padding-left: 30px;
+}
+
+ul :first-child, ol :first-child {
+  margin-top: 0;
+}
+
+dl {
+  padding: 0;
+}
+dl dt {
+  font-size: 14px;
+  font-weight: bold;
+  font-style: italic;
+  padding: 0;
+  margin: 15px 0 5px;
+}
+  dl dt:first-child {
+    padding: 0;
+  }
+  dl dt > :first-child {
+    margin-top: 0;
+  }
+  dl dt > :last-child {
+    margin-bottom: 0;
+  }
+dl dd {
+  margin: 0 0 15px;
+  padding: 0 15px;
+}
+dl dd > :first-child {
+  margin-top: 0;
+}
+dl dd > :last-child {
+  margin-bottom: 0;
+}
+
+blockquote {
+  border-left: 4px solid #ECF0F3;
+  /*padding: 0 15px;*/
+  padding: 15px;
+  background-color:#F7F9FA;
+  color: #2B3F52;
+}
+blockquote > :first-child {
+  margin-top: 0; }
+blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+table {
+  padding: 0;border-collapse: collapse;
+}
+table tr {
+  border-top: 1px solid #cccccc;
+  background-color: white;
+  margin: 0;
+  padding: 0;
+}
+table tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+table tr th {
+  font-weight: bold;
+  border: 1px solid #cccccc;
+  margin: 0;
+  padding: 6px 13px;
+}
+table tr td {
+  border: 1px solid #cccccc;
+  margin: 0;
+  padding: 6px 13px;
+}
+table tr th :first-child, table tr td :first-child {
+  margin-top: 0;
+}
+table tr th :last-child, table tr td :last-child {
+  margin-bottom: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+span.frame {
+  display: block;
+  overflow: hidden;
+}
+span.frame > span {
+  border: 1px solid #dddddd;
+  display: block;
+  float: left;
+  overflow: hidden;
+  margin: 13px 0 0;
+  padding: 7px;
+  width: auto; }
+span.frame span img {
+  display: block;
+  float: left; }
+span.frame span span {
+  clear: both;
+  color: #333333;
+  display: block;
+  padding: 5px 0 0;
+}
+span.align-center {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+span.align-center > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px auto 0;
+  text-align: center;
+}
+span.align-center span img {
+  margin: 0 auto;
+  text-align: center;
+}
+span.align-right {
+  display: block;
+  overflow: hidden;
+  clear: both;
+}
+span.align-right > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px 0 0;
+  text-align: right;
+}
+span.align-right span img {
+  margin: 0;
+  text-align: right;
+}
+span.float-left {
+  display: block;
+  margin-right: 13px;
+  overflow: hidden;
+  float: left;
+}
+span.float-left span {
+  margin: 13px 0 0;
+}
+span.float-right {
+  display: block;
+  margin-left: 13px;
+  overflow: hidden;
+  float: right;
+}
+span.float-right > span {
+  display: block;
+  overflow: hidden;
+  margin: 13px auto 0;
+  text-align: right;
+}
+
+code, tt {
+  margin: 0 2px;
+  padding: 0 5px;
+  white-space: nowrap;
+  border: 1px solid #eaeaea;
+  background-color: #f8f8f8;
+  border-radius: 3px;
+}
+
+pre code {
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  border: none;
+  background: transparent;
+}
+
+.highlight pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+pre {
+  background-color: #f8f8f8;
+  border: 1px solid #cccccc;
+  font-size: 13px;
+  line-height: 19px;
+  overflow: auto;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+pre code, pre tt {
+  background-color: transparent;
+  border: none;
+}
+
+sup {
+  font-size: 0.83em;
+  vertical-align: super;
+  line-height: 0;
+}
+code {
+  white-space: pre-wrap;
+  word-break: break-all;
+  display: block;
+}
+* {
+  -webkit-print-color-adjust: exact;
+}
+@media print {
+  table, pre {
+    page-break-inside: avoid;
+  }
+  pre {
+    word-wrap: break-word;
+  }
+
+}
+</style>
