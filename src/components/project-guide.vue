@@ -4,6 +4,7 @@
 </div>
 </template>
 <script type="text/javascript">
+import showdown from "showdown"
 export default {
   data() {
     return {
@@ -12,9 +13,9 @@ export default {
   },
   created() {
 
-    this.$http.get("/test").then(response => {
-      console.log(hljs)
-      let content = response.data.c
+    this.$http.get("/api/test").then(response => {
+      // console.log(hljs)
+      let content = response.data
       this.bb = content
       let converter = new showdown.Converter({
         "omitExtraWLInCodeBlocks":true,
@@ -37,13 +38,13 @@ export default {
         "simpleLineBreaks":false,
         "requireSpaceBeforeHeadingText":false,
         "ghMentions":false,"extensions":[],"sanitize":false
-    })
+      })
       converter.setFlavor('original');
       converter.setFlavor('github');
       let html = converter.makeHtml(content);
       console.log(html)
       this.aaa = html
-      hljs.initHighlightingOnLoad();
+      // hljs.initHighlightingOnLoad();
     })
   }
 }

@@ -7,7 +7,7 @@
 | title | String | true | 文章标题 |
 | createTime | Long | true | 文章创建时间 |
 | updateTime | Long | true | 文章更新时间 |
-| location | String | true | 文章地址 |
+| summary | String | true | 文章概要 |
 
 ## 标签数据结构
 | 字段 | 类型 | 备注 |
@@ -19,7 +19,7 @@
 | 字段 | 类型 | 备注 |
 | ---- |  ---- | -----|
 | id | String | 绑定标识 |
-| tyoe | Integer | 绑定类型, 0: 文章-标签 |
+| type | Integer | 绑定类型, 0: 文章-标签 |
 | source | String | 绑定源 |
 | target | String | 绑定目标 |
 ### example
