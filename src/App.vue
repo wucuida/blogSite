@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <el-container id="home">
-      <el-header :class="headerCls">
+    <el-container >
+      <el-header :class="headerCls" id="index">
         <el-row>
           <el-col :span="13">
           <img src="./assets/logo.png" style="height:45px;float:left;padding-right:1%;padding-top:9px">
@@ -12,7 +12,7 @@
               :class="'hidden-sm-and-down'"
               style="height:60px;line-height:60px"
               :size="'small'"
-              placeholder="请输入内容"
+              placeholder="搜索文章"
               suffix-icon="el-icon-search"
               v-model="searchContent">
             </el-input>
@@ -26,14 +26,16 @@
             active-text-color="#42B983"
             @select="handleSelect">
             <el-menu-item index="home">Home</el-menu-item>
-            <el-menu-item index="tags">Tags</el-menu-item>
             <el-menu-item index="archives">Archives</el-menu-item>
+            <el-menu-item index="about">About</el-menu-item>
             <el-menu-item index="manage">Manage</el-menu-item>
           </el-menu>
           </el-col>
         </el-row>
       </el-header>
-      <router-view></router-view>
+      <el-main :style="{'height': mainHeight + 'px', 'padding': '20px 20px 0 20px'}">
+        <router-view></router-view>
+      </el-main>
     </el-container>
   </div>
 </template>
@@ -47,6 +49,11 @@ export default {
       activeIndex: 'home',
       headerCls: ["header-top",],
       searchContent: ""
+    }
+  },
+  computed: {
+    mainHeight() {
+      return  document.documentElement.clientHeight - 60
     }
   },
 
@@ -68,10 +75,10 @@ body {
 .header-top {
   width: 100%;
   box-shadow: 0 0 3px rgba(14,14,14,0.26);
-  position: fixed;
-  background-color: #fff
+  background-color: #fff;
+  z-index: 999;
 }
-#home .el-input__inner {
+.el-input__inner {
   border-radius: 20px;
 }
 
