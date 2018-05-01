@@ -1,5 +1,6 @@
 const converterConfig = {
-  'table': true
+  'tables': true,
+  'tasklists': true
 }
 
 export {converterConfig}

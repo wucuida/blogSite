@@ -19,6 +19,7 @@
           </el-col>
           <el-col :span="7" >
           <el-menu
+            ref='menu'
             :class="'hidden-sm-and-down'"
             :default-active="activeIndex"
             style="font-weight:bolder"
@@ -34,7 +35,7 @@
         </el-row>
       </el-header>
       <el-main :style="{'height': mainHeight + 'px', 'padding': '20px 20px 0 20px'}">
-        <router-view></router-view>
+        <router-view @home="goHome"></router-view>
       </el-main>
     </el-container>
   </div>
@@ -46,7 +47,6 @@ export default {
   name: 'app',
   data() {
     return {
-      activeIndex: 'home',
       headerCls: ["header-top",],
       searchContent: ""
     }
@@ -54,10 +54,23 @@ export default {
   computed: {
     mainHeight() {
       return  document.documentElement.clientHeight - 60
+    },
+    activeIndex() {
+      console.log(this.$route, "----2-------")
+      let navs = ["home", "archives", "about", 'manage']
+      if(navs.indexOf(this.$route.name) != -1){
+        return this.$route.name
+      }else if(this.$route.matched.length){
+        return this.$route.matched[0].name
+      }
+      return 'home'
     }
   },
 
   methods: {
+    goHome() {
+      this.$refs.menu.activeIndex = 'home'
+    },
     handleSelect(route, routePath) {
       this.$router.push({ path: `/${route}` })
     },
@@ -70,7 +83,10 @@ export default {
 <style>
 body {
   margin: 0;
-  padding: 0
+  padding: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #516272;
 }
 .header-top {
   width: 100%;

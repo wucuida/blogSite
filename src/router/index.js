@@ -14,12 +14,12 @@ export default new Router({
       name: "home",
       component: resolve => require(["../components/Home.vue"], resolve)
     },{
-      path: "/article/:articleId",
+      path: "/articles/:articleId",
       name: "article",
       component: resolve => require(["../components/Article.vue"], resolve)
     },{
-      path: "/tags",
-      name: "tags",
+      path: "/about",
+      name: "about",
       component: resolve => require(["../components/Home.vue"], resolve)
     },{
       path: "/archives",
@@ -53,7 +53,20 @@ export default new Router({
           // }
 
         }
-      ]
+      ],
+      beforeEnter: (to, from, next) => {
+        var token = sessionStorage.getItem("access_token")
+        if(token){
+          next()
+        }else {
+          console.log("122")
+          next("login")
+        }
+      }
+    }, {
+      path: "/login",
+      name: "login",
+      component: resolve => require(["../components/Login.vue"], resolve)
     }
   ]
 })
