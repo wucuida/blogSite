@@ -8,41 +8,49 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: resolve => require(["../components/Home.vue"], resolve)
+      component: resolve => require(["../components/Home.vue"], resolve),
+      meta: { activeName: "home" }
     },{
       path: "/home",
       name: "home",
-      component: resolve => require(["../components/Home.vue"], resolve)
+      component: resolve => require(["../components/Home.vue"], resolve),
+      meta: { activeName: "home" }
     },{
       path: "/articles/:articleId",
       name: "article",
-      component: resolve => require(["../components/Article.vue"], resolve)
+      component: resolve => require(["../components/Article.vue"], resolve),
+      meta: { activeName: "home" }
     },{
       path: "/about",
       name: "about",
-      component: resolve => require(["../components/Home.vue"], resolve)
+      component: resolve => require(["../components/Home.vue"], resolve),
+      meta: { activeName: "about" }
     },{
       path: "/archives",
       name: "archives",
-      component: resolve => require(["../components/Home.vue"], resolve)
+      component: resolve => require(["../components/Home.vue"], resolve),
+      meta: { activeName: "archives" }
     },{
       path: "/manage",
       name: "manage",
       component: resolve => require(["../components/Manage.vue"], resolve),
+      meta: { activeName: "manage" },
       children: [
         {
-          path: 'doc',
-          name: "manageDoc",
+          path: 'article',
+          name: "manageArticle",
           component: resolve => require(["../components/ManageDoc.vue"], resolve),
+          meta: { activeName: "manage" }
         }, {
           path: 'tag',
           name: "manageTag",
           component: resolve => require(["../components/ManageTag.vue"], resolve),
-
+          meta: { activeName: "manage" }
         }, {
           path: '',
           name: "defaultManage",
           component: resolve => require(["../components/ManageDoc.vue"], resolve),
+          meta: { activeName: "manage" }
           // beforeEnter: (to, from, next) => {
           //   var type = sessionStorage.getItem("type")
           //   if(type && parseInt(type) <= 100){
@@ -66,7 +74,8 @@ export default new Router({
     }, {
       path: "/login",
       name: "login",
-      component: resolve => require(["../components/Login.vue"], resolve)
+      component: resolve => require(["../components/Login.vue"], resolve),
+      meta: { activeName: "manage" }
     }
   ]
 })

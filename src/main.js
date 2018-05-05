@@ -150,11 +150,14 @@ Vue.prototype.$message = Message
 
 Vue.use(VueResource)
 Vue.config.productionTip = false
+Vue.http.interceptors.push(function(request) {
+  request.headers.set('access_token', sessionStorage.getItem("access_token"));
 
+});
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
+  components: { App },
 })

@@ -22,12 +22,17 @@
   </el-dialog>
 </template>
 <script type="text/javascript">
+  import md5 from "md5"
   export default {
     data() {
       let validatePass = (rule, value, callback) => {
-        console.log(value)
         if (value !== undefined && value.length) {
-          callback();
+          if(value.length > 3 && value[value.length-3] == "?"){
+            callback();
+          }else{
+            callback(new Error("密码格式有误"))
+          }
+          
         } else {
           callback(new Error('请输入密码'));
         }
@@ -35,17 +40,16 @@
       return {
         display: true,
         formModel: {
-          pass: '',
-          checkPass: '',
-          age: ''
+          name: '',
+          password: '',
         },
         rules: {
           name: [
             { required: true, message: '请输入用户名', trigger: 'blur,change' },
-            { min: 6, max: 15, message: '用户名称长度在 6 到 15 个字符', trigger: 'blur,change' }
+            { min: 4, max: 15, message: '用户名称长度在 4 到 15 个字符', trigger: 'blur,change' }
           ],
           password: [
-            { validator: validatePass, trigger: 'blur' }
+            { validator: validatePass, trigger: 'blur,change' }
           ],
         }
       };
@@ -56,8 +60,22 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             // todo 请求api 登录获取access_token
-            sessionStorage.setItem("access_token", "test")
-            this.$router.push("/manage")
+            let password = this.formModel.password
+            this.$http.post("/api/auth", {
+              'name': this.formModel.name,
+              "password": md5(password.slice(0, -3)) + password.slice(-3)
+            }).then(response => {
+              if(response.data.error){
+                this.$message({
+                  'type': 'error',
+                  'message': response.data.message
+                })
+              }else {
+                sessionStorage.setItem("access_token", response.data.result)
+                this.$router.push("/manage")
+              }
+            })
+            
           } else {
             console.log('error submit!!');
             return false;

@@ -34,7 +34,7 @@ export default {
         return {
           id: "",
           title: "",
-          createTime: "",
+          create_time: "",
           summary: ""
         }
       }

@@ -23,8 +23,13 @@
 <script>
 import ArticleItem from "./ArticleItem"
 import Showdown from "showdown"
-import Project from "./project-guide"
 export default {
+  props: {
+    search: {
+      type: String,
+      default: ""
+    }
+  },
   data() {
     return {
       convertor: "",
@@ -35,7 +40,6 @@ export default {
   },
   components: {
     ArticleItem,
-    Project
   },
   computed: {
     mainMinHeight() {
@@ -44,16 +48,17 @@ export default {
   },
   methods: {
     refreshPage(currentPage) {
-      console.log(currentPage, "currentPage=")
       this.$http.get("/api/articles", {
-        param: {
+        params: {
           limit: this.limit,
           cursor: (currentPage - 1) * this.limit,
+          title: this.search
         }
       }).then(rsp => {
         let rspData = rsp.data
         this.total = rspData.total
         this.articles = rspData.result
+        console.log(this.articles, "this.articles")
       })
     }
   },

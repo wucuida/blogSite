@@ -26,8 +26,8 @@
 </template>
 <script>
 const allTags = [
-  {'name': '文章', 'id': "article", icon: 'el-icon-document'},
-  {'name': '标签', 'id': 'tag', icon: 'el-icon-star-on'}
+  {'name': '文章', 'id': "manageArticle", icon: 'el-icon-document'},
+  {'name': '标签', 'id': 'manageTag', icon: 'el-icon-star-on'}
 ]
 export default {
   data() {
@@ -58,7 +58,7 @@ export default {
       console.log(id, this.currentTag)
       if(id != this.currentTag.id){
         this.currentTag = this.allTags.find(t => t.id == id)
-
+        this.$router.push({'name': id})
       }
     },
     refresh() {

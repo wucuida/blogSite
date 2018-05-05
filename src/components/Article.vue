@@ -27,7 +27,19 @@ export default {
 
       if(articleId){
         this.$http.get(`/api/articles/${articleId}`).then(response => {
-          this.renderContent(response.data.result)
+          if(response.data.result){
+            this.renderContent(response.data.result)
+          }else {          
+            this.$confirm('此页面暂时无法访问, 是否跳转到主页?', '提示', {
+              confirmButtonText: '确定',
+              cancelButtonText: '取消',
+              type: 'warning'
+            }).then(() => {
+              this.$router.push("/home")
+            }).catch(() => {
+              this.$router.push("/home")    
+            })
+          }
         })
       }
     }
@@ -135,7 +147,7 @@ export default {
   font-size: 14px;
 }
 
-#articleContent p, blockquote, ul, ol, dl, li, table, pre {
+#articleContent p, blockquote, ol, dl, pre {
   margin: 15px 0;
   color: #516272;  }
 
@@ -172,6 +184,8 @@ export default {
   margin: 0;
 }
 #articleContent ul, ol {
+  margin: 15px 0;
+  color: #516272; 
   padding-left: 30px;
 }
 
@@ -223,7 +237,10 @@ export default {
 }
 
 #articleContent table {
-  padding: 0;border-collapse: collapse;
+  margin: 15px 0;
+  color: #516272; 
+  padding: 0;
+  border-collapse: collapse;
 }
 #articleContent table tr {
   border-top: 1px solid #cccccc;

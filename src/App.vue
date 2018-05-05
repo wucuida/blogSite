@@ -14,6 +14,7 @@
               :size="'small'"
               placeholder="搜索文章"
               suffix-icon="el-icon-search"
+              @keyup.native.enter="searchArticle"
               v-model="searchContent">
             </el-input>
           </el-col>
@@ -35,7 +36,7 @@
         </el-row>
       </el-header>
       <el-main :style="{'height': mainHeight + 'px', 'padding': '20px 20px 0 20px'}">
-        <router-view @home="goHome"></router-view>
+        <router-view ref="view" @home="goHome" :search="searchContent"></router-view>
       </el-main>
     </el-container>
   </div>
@@ -56,12 +57,9 @@ export default {
       return  document.documentElement.clientHeight - 60
     },
     activeIndex() {
-      console.log(this.$route, "----2-------")
-      let navs = ["home", "archives", "about", 'manage']
-      if(navs.indexOf(this.$route.name) != -1){
-        return this.$route.name
-      }else if(this.$route.matched.length){
-        return this.$route.matched[0].name
+      let active = this.$route.meta.activeName
+      if(active){
+        return active
       }
       return 'home'
     }
@@ -74,6 +72,14 @@ export default {
     handleSelect(route, routePath) {
       this.$router.push({ path: `/${route}` })
     },
+    searchArticle() {
+      console.log(this.$route, "header route")
+      if(this.$route.name == "home"){
+        this.$refs.view.refreshPage(1)
+      }else {
+        this.$router.push({path: '/home'})
+      }
+    }
   },
   created() {
   }
