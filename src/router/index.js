@@ -23,7 +23,7 @@ export default new Router({
     },{
       path: "/about",
       name: "about",
-      component: resolve => require(["../components/Home.vue"], resolve),
+      component: resolve => require(["../components/About.vue"], resolve),
       meta: { activeName: "about" }
     },{
       path: "/archives",
