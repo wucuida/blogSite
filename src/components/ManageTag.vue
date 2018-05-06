@@ -2,7 +2,10 @@
 <el-main>
   <el-row style="margin-bottom:12px">
     <el-col :span="5" >
-      <el-input placeholder='请输入名称' size="mini" suffix-icon="el-icon-search">
+      <el-input placeholder='请输入名称' size="mini" 
+        v-model="searchContent"
+        @keyup.native.enter="queryArticle"
+        suffix-icon="el-icon-search">
       </el-input>
     </el-col>
     <el-col :span="2" :offset="17">
@@ -92,6 +95,7 @@ export default {
       rules: {
         'name': [{ required: true, message: '请输入名称', trigger: 'blur,change' }],
       },
+      searchContent: ""
     }
   },
   computed: {
@@ -101,11 +105,13 @@ export default {
   },
   methods: {
     refreshPage(currentPage) {
-      console.log(currentPage, "currentPage=")
+      // console.log(currentPage, "currentPage=")
       this.$http.get("/api/tags", {
-        param: {
+        params: {
           limit: this.limit,
           cursor: (currentPage - 1) * this.limit,
+          verbose: 100,
+          name: this.searchContent
         }
       }).then(rsp => {
         let rspData = rsp.data
@@ -115,6 +121,9 @@ export default {
     },
     dateFormatter(row, column) {
       return dateFormat(new Date(row.create_time), "yyyy-MM-dd")
+    },
+    queryArticle() {
+      this.refreshPage(1)
     },
     handleEdit(index, row) {
       this.showTagDialog = true

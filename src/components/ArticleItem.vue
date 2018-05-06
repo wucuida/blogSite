@@ -11,10 +11,15 @@
           Read More
         </el-button>
         <div style="padding-top:3px">
-          <el-tag :size="'mini'" v-for="tag in tags" :key="tag">{{tag}}</el-tag>
+          
+          <el-tag :size="'mini'" v-for="tag in article.tags" 
+            style="margin-right:5px"
+            :key="tag.id">
+            {{tag.name}}
+          </el-tag>   
           <el-tag :size="'mini'" type="info"
-            style="color:#ccc;border: 0; background-color:#fff">
-            <i class='el-icon-date'> 2015-03-13</i>
+            style="color:#ccc;border: 0; background-color:#fff;float:right">
+            <i class='el-icon-date'> {{createTime}}</i>
           </el-tag>
         </div>
       </div>
@@ -26,6 +31,7 @@
 </el-row>
 </template>
 <script>
+import {dateFormat} from "@/util/date_format.js"
 export default {
   props: {
     article: {
@@ -48,6 +54,11 @@ export default {
 		return {
 		}
 	},
+  computed: {
+    createTime() {
+      return dateFormat(new Date(this.article.create_time), "yyyy-MM-dd")
+    }
+  },
   methods: {
     getArticleContent() {
       this.$router.push({'name': 'article', params: {'articleId': this.article.id}})

@@ -28,7 +28,7 @@ export default new Router({
     },{
       path: "/archives",
       name: "archives",
-      component: resolve => require(["../components/Home.vue"], resolve),
+      component: resolve => require(["../components/Archives.vue"], resolve),
       meta: { activeName: "archives" }
     },{
       path: "/manage",

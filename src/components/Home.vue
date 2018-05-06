@@ -52,6 +52,7 @@ export default {
         params: {
           limit: this.limit,
           cursor: (currentPage - 1) * this.limit,
+          verbose: 100,
           title: this.search
         }
       }).then(rsp => {
