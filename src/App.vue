@@ -100,7 +100,7 @@ body {
   background-color: #fff;
   z-index: 999;
 }
-.el-input__inner {
+#app .el-input__inner {
   border-radius: 20px;
 }
 
