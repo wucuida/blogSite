@@ -1,12 +1,13 @@
 <template>
   <el-row>
     <el-col :span="18" :offset="3" >
-      <div id="articleContent" v-html="htmlContent"></div>
+      <div id="articleContent" v-html="htmlContent" v-hljs></div>
     </el-col>
   </el-row>
 </template>
 <script type="text/javascript">
 import showdown from "showdown"
+import Hljs from 'highlight.js'
 import {converterConfig} from "../config/config.js"
 export default {
   data() {
@@ -15,11 +16,21 @@ export default {
       htmlContent: ""
     }
   },
+  directives: {
+    hljs: {
+      update: (el, binding, vnode) => {
+        let blocks = el.querySelectorAll('pre code');
+        Array.prototype.forEach.call(blocks, Hljs.highlightBlock);
+      }
+    }
+  },
   methods: {
     renderContent(content) {
       let converter = this.converter || (new showdown.Converter(converterConfig))
       let html = converter.makeHtml(content || "")
+
       this.htmlContent = html
+      // hljs.highlightBlock( this.htmlContent )
     },
     refresh() {
       console.log(this.$route, this.$router)
@@ -29,7 +40,7 @@ export default {
         this.$http.get(`/api/articles/${articleId}`).then(response => {
           if(response.data.result){
             this.renderContent(response.data.result)
-          }else {          
+          }else {
             this.$confirm('此页面暂时无法访问, 是否跳转到主页?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',
@@ -37,7 +48,7 @@ export default {
             }).then(() => {
               this.$router.push("/home")
             }).catch(() => {
-              this.$router.push("/home")    
+              this.$router.push("/home")
             })
           }
         })
@@ -69,7 +80,7 @@ export default {
 }
 
 #articleContent a {
-  color: #4183C4; }
+  color: #42B983; }
 #articleContent a.absent {
   color: #cc0000; }
 #articleContent a.anchor {
@@ -185,7 +196,7 @@ export default {
 }
 #articleContent ul, ol {
   margin: 15px 0;
-  color: #516272; 
+  color: #516272;
   padding-left: 30px;
 }
 
@@ -238,7 +249,7 @@ export default {
 
 #articleContent table {
   margin: 15px 0;
-  color: #516272; 
+  color: #516272;
   padding: 0;
   border-collapse: collapse;
 }
@@ -395,7 +406,6 @@ export default {
 #articleContent code {
   white-space: pre-wrap;
   word-break: break-all;
-  display: block;
 }
 #articleContent * {
   -webkit-print-color-adjust: exact;
@@ -409,4 +419,5 @@ export default {
   }
 
 }
+.hljs{display:block;overflow-x:auto;padding:0.5em;color:#383a42;background:#fafafa}.hljs-comment,.hljs-quote{color:#a0a1a7;font-style:italic}.hljs-doctag,.hljs-keyword,.hljs-formula{color:#a626a4}.hljs-section,.hljs-name,.hljs-selector-tag,.hljs-deletion,.hljs-subst{color:#e45649}.hljs-literal{color:#0184bb}.hljs-string,.hljs-regexp,.hljs-addition,.hljs-attribute,.hljs-meta-string{color:#50a14f}.hljs-built_in,.hljs-class .hljs-title{color:#c18401}.hljs-attr,.hljs-variable,.hljs-template-variable,.hljs-type,.hljs-selector-class,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-number{color:#986801}.hljs-symbol,.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-title{color:#4078f2}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:bold}.hljs-link{text-decoration:underline}
 </style>
