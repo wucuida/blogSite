@@ -4,7 +4,7 @@
       <el-header :class="headerCls" id="index">
         <el-row>
           <el-col :span="13">
-          <img src="./assets/logo.png" style="height:45px;float:left;padding-right:1%;padding-top:9px">
+          <img src="./assets/imgs/logo.png" style="height:45px;float:left;padding-right:1%;padding-top:9px">
           <span style="color: #aaa;height: 60px;line-height: 60px;font-weight: bold;">WUCD</span>
           </el-col>
           <el-col :span="4" style="padding-right:1%">

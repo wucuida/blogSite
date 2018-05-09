@@ -1,5 +1,5 @@
 <template>
-  <el-row>
+  <el-row style="padding-bottom:5%">
     <el-col :span="18" :offset="3" >
       <div id="articleContent" v-html="htmlContent" v-hljs></div>
     </el-col>
