@@ -91,7 +91,7 @@ export default {
     font-size: larger
   }
   .currentTag {
-    border-left: 5px solid #42b983;
+    border-left: 5px solid #42B983;
   }
   .manage-menu .tag_content {
     width: 70%;

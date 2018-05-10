@@ -1,6 +1,7 @@
 <template>
 <div>
-  <div id="articleItems" :style="{'min-height': mainMinHeight + 'px'}">
+  <div id="articleItems" :style="{'min-height': mainMinHeight + 'px'}"
+    v-loading="loading" element-loading-text="loading...">
     <transition-group name="el-zoom-in-top">
       <article-item v-for="article in articles"
         :key="article.id"
@@ -36,6 +37,7 @@ export default {
       limit: 10,
       total: 1,
       articles: [],
+      loading: true,
     }
   },
   components: {
@@ -48,6 +50,7 @@ export default {
   },
   methods: {
     refreshPage(currentPage) {
+      this.loading = true
       this.$http.get("/api/articles", {
         params: {
           limit: this.limit,
@@ -56,10 +59,11 @@ export default {
           title: this.search
         }
       }).then(rsp => {
+        this.loading = false
         let rspData = rsp.data
         this.total = rspData.total
         this.articles = rspData.result
-        console.log(this.articles, "this.articles")
+        // console.log(this.articles, "this.articles")
       })
     }
   },
@@ -69,7 +73,7 @@ export default {
   created() {
     this.refreshPage(1)
     // let html = converter.makeHtml(t);
-  }
+  },
 }
 </script>
 <style type="text/css">

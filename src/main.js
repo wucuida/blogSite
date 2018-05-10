@@ -160,4 +160,7 @@ new Vue({
   router,
   template: '<App/>',
   components: { App },
+  created() {
+    document.getElementById('screen-loader').style.display = "none"
+  }
 })

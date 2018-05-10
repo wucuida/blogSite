@@ -1,7 +1,11 @@
 <template>
-  <el-row style="padding-bottom:5%">
+  <el-row :style="{'padding-bottom':'5%', 'min-height': mainMinHeight + 'px'}"
+    v-loading="loading" element-loading-text="loading...">
     <el-col :span="18" :offset="3" >
-      <div id="articleContent" v-html="htmlContent" v-hljs></div>
+      <!-- <transition name="el-zoom-in-top"> -->
+        <div  id="articleContent" v-html="htmlContent" v-hljs></div>
+      <!-- </transition> -->
+
     </el-col>
   </el-row>
 </template>
@@ -13,7 +17,13 @@ export default {
   data() {
     return {
       converter: "",
-      htmlContent: ""
+      htmlContent: "",
+      loading: true
+    }
+  },
+  computed: {
+    mainMinHeight() {
+      return document.documentElement.clientHeight - 60 - 90
     }
   },
   directives: {
@@ -28,12 +38,14 @@ export default {
     renderContent(content) {
       let converter = this.converter || (new showdown.Converter(converterConfig))
       let html = converter.makeHtml(content || "")
-
+      if(this.loading){
+        this.loading = false
+      }
       this.htmlContent = html
       // hljs.highlightBlock( this.htmlContent )
     },
     refresh() {
-      console.log(this.$route, this.$router)
+      this.loading = true
       let articleId = this.$route.params.articleId
 
       if(articleId){
@@ -41,6 +53,7 @@ export default {
           if(response.data.result){
             this.renderContent(response.data.result)
           }else {
+            this.loading = false
             this.$confirm('此页面暂时无法访问, 是否跳转到主页?', '提示', {
               confirmButtonText: '确定',
               cancelButtonText: '取消',

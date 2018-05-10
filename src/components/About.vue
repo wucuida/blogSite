@@ -1,12 +1,12 @@
 <template>
 <div>
-  <el-row id="about">
+  <el-row id="about" v-loading="loading" element-loading-text="loading...">
     <el-col :span="18" :offset="3" >
-      <el-card :body-style="{ padding: '0px', 'height': '500px' }">
+      <el-card :body-style="{ padding: '0px', 'height': mainMinHeight + 'px' }">
         <el-row>
           <el-col :span="9" style="padding-top:12%">
             <div style="padding-left:40%">
-              <img src="../assets/imgs/about_me.png" 
+              <img src="../assets/imgs/about_me.png"
               style="height:100px;width:100px;border: 3px solid #ccc;border-radius:50%">
             </div>
             <div style="text-align:center;margin-top:5%">
@@ -20,11 +20,11 @@
               <i slot="reference" class="iconfont icon-weixin1" style="padding-right:8px">
               </i>
             </el-popover>
-              
-            
+
+
             <i class="iconfont icon-icon-zhihu"></i>
             </div>
-            
+
           </el-col>
           <el-col :span="15" style="padding-top:8%;padding-right:5%">
             <div>
@@ -43,11 +43,11 @@
             </div>
           </el-col>
         </el-row>
-        
+
         <!-- <div style="padding: 14px;">
           <span>小小程序猿</span>
           <div class="bottom clearfix">
-            
+
             <time class="time">2018-4-12</time>
             <el-button type="text" class="button">操作按钮</el-button>
           </div>
@@ -75,6 +75,7 @@ export default {
       monthArticles: [],
       now: date,
       currentPage: 1,
+      loading: true
     }
   },
   components: {
@@ -93,6 +94,9 @@ export default {
     }
   },
   created() {
+    setTimeout(() => {
+      this.loading = false
+    }, 500)
   }
 }
 </script>

@@ -1,26 +1,26 @@
 <template>
 <div>
-  <el-row :style="{'min-height': mainMinHeight + 'px'}" 
+  <el-row :style="{'min-height': mainMinHeight + 'px'}"
     element-loading-text="Loading..."
     id="archives" v-loading="loading">
     <el-col :span="8" :offset="8">
-      <el-steps :active="13" direction='vertical' :space="'150px'" 
+      <el-steps :active="13" direction='vertical' :space="'150px'"
         :finish-status="'process'">
         <el-step title="Today" description="" icon='el-icon-date' :key="-1"></el-step>
-        <el-step v-for="(item,k) in monthArticles" 
+        <el-step v-for="(item,k) in monthArticles"
           icon='el-icon-date'
-          :key="k"> 
-          <div slot="title">{{year}}年{{item[0]}}月</div>   
+          :key="k">
+          <div slot="title">{{year}}年{{item[0]}}月</div>
           <div slot="description">
-              <div v-for="doc in item[1]" 
+              <div v-for="doc in item[1]"
                 :key="doc.id"
-                @click="readArticle(doc)" 
+                @click="readArticle(doc)"
                 class="archives_article_desc">
                 <i class='el-icon-view'></i>
                 <span >{{doc.title}}</span>
               </div>
           </div>
-        </el-step>     
+        </el-step>
       </el-steps>
     </el-col>
   </el-row>
@@ -89,8 +89,8 @@ export default {
             'type': 'error',
             'message': '归档出错'
           })
-        } 
-        this.loading = false  
+        }
+        this.loading = false
       })
     },
     doArchive() {
@@ -107,7 +107,7 @@ export default {
       for(let month in monthMap){
         monthArticles.unshift([month, monthMap[month]])
       }
-      this.monthArticles = monthArticles.sort((a,b) => b[0] - a[0])   
+      this.monthArticles = monthArticles.sort((a,b) => b[0] - a[0])
     },
     readArticle(article) {
       this.$router.push({'name': 'article', params: {'articleId': article.id}})
