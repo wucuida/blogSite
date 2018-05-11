@@ -1,7 +1,7 @@
 <template>
   <el-row :style="{'padding-bottom':'5%', 'min-height': mainMinHeight + 'px'}"
-    v-loading="loading" element-loading-text="loading...">
-    <el-col :span="18" :offset="3" >
+    v-loading="loading" element-loading-text="loading..." type="flex" justify="center">
+    <el-col :span="18" :xs="24" >
       <!-- <transition name="el-zoom-in-top"> -->
         <div  id="articleContent" v-html="htmlContent" v-hljs></div>
       <!-- </transition> -->

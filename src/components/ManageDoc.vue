@@ -2,7 +2,7 @@
 <el-main>
   <el-row style="margin-bottom:12px">
     <el-col :span="5" >
-      <el-input placeholder='请输入文章标题' 
+      <el-input placeholder='请输入文章标题'
         size="mini" suffix-icon="el-icon-search"
         v-model="searchContent"
         @keyup.native.enter="queryArticle" >
@@ -196,8 +196,8 @@ export default {
             })
           }
         })
-      }).catch(() => {      
-      }); 
+      }).catch(() => {
+      });
     },
     openArticleDialog() {
       this.showArticleDialog = true
@@ -252,7 +252,7 @@ export default {
               })
             }
           }
-          
+
         }else{
           return false
         }
@@ -270,6 +270,11 @@ export default {
           this.$message({
             type: 'success',
             message: '更新文章成功'
+          })
+         }else{
+          this.$message({
+            'type': 'error',
+            'message': '更新文章失败'
           })
          }
         })
@@ -300,7 +305,7 @@ export default {
           'title': this.form.title
         }
       }).then(response => {
-        console.log('上传结果', response)
+        // console.log('上传结果', response)
         if(response.data.result){
           if(this.form.id != undefined){
             httpConfig = {

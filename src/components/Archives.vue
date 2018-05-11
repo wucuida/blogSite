@@ -2,8 +2,9 @@
 <div>
   <el-row :style="{'min-height': mainMinHeight + 'px'}"
     element-loading-text="Loading..."
+    type="flex" justify="center"
     id="archives" v-loading="loading">
-    <el-col :span="8" :offset="8">
+    <el-col :span="8" :xs="22">
       <el-steps :active="13" direction='vertical' :space="'150px'"
         :finish-status="'process'">
         <el-step title="Today" description="" icon='el-icon-date' :key="-1"></el-step>
@@ -130,5 +131,8 @@ export default {
 }
 #archives .el-step__icon {
   color: #42B983;
+}
+#archives .el-step__description {
+  font-size: 14px
 }
 </style>

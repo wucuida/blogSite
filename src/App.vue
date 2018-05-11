@@ -3,11 +3,11 @@
     <el-container >
       <el-header :class="headerCls" id="index">
         <el-row>
-          <el-col :span="13">
+          <el-col :span="14" :xs="17">
           <img src="./assets/imgs/logo.png" style="height:45px;float:left;padding-right:1%;padding-top:9px">
           <span style="color: #aaa;height: 60px;line-height: 60px;font-weight: bold;">WUCD</span>
           </el-col>
-          <el-col :span="4" style="padding-right:1%">
+          <el-col :span="5" :xs="0" style="padding-right:1%">
             <el-input
               :class="'hidden-sm-and-down'"
               style="height:60px;line-height:60px"
@@ -18,20 +18,26 @@
               v-model="searchContent">
             </el-input>
           </el-col>
-          <el-col :span="7" >
-          <el-menu
-            ref='menu'
-            :class="'hidden-sm-and-down'"
-            :default-active="activeIndex"
-            style="font-weight:bolder"
-            mode="horizontal"
-            active-text-color="#42B983"
-            @select="handleSelect">
-            <el-menu-item index="home">Home</el-menu-item>
-            <el-menu-item index="archives">Archives</el-menu-item>
-            <el-menu-item index="about">About</el-menu-item>
-            <el-menu-item index="manage">Manage</el-menu-item>
-          </el-menu>
+          <el-col :span="5" :xs="7">
+            <div :class="{'phone-menu-icon': !isPc}" id="phone-menu">
+              <el-button
+                :class="'hidden-sm-and-up'"
+                @click="show=!show"
+                icon="el-icon-menu" type="text">
+              </el-button>
+            </div>
+            <el-menu
+                ref='menu'
+                :mode="isPc?'horizontal':'vertical'"
+                :default-active="activeIndex"
+                :style="{'font-weight':'bolder', 'display': (isPc||show)?'':'none'}"
+                active-text-color="#42B983"
+                @select="handleSelect">
+                <el-menu-item index="home">Home</el-menu-item>
+                <el-menu-item index="archives">Archives</el-menu-item>
+                <el-menu-item index="about">About</el-menu-item>
+                <!-- <el-menu-item index="manage">Manage</el-menu-item> -->
+              </el-menu>
           </el-col>
         </el-row>
       </el-header>
@@ -49,7 +55,8 @@ export default {
   data() {
     return {
       headerCls: ["header-top",],
-      searchContent: ""
+      searchContent: "",
+      show: false
     }
   },
   computed: {
@@ -62,6 +69,9 @@ export default {
         return active
       }
       return 'home'
+    },
+    isPc() {
+      return screen.width > 768
     }
   },
 
@@ -70,6 +80,7 @@ export default {
       this.$refs.menu.activeIndex = 'home'
     },
     handleSelect(route, routePath) {
+      this.show = false
       this.$router.push({ path: `/${route}` })
     },
     searchArticle() {
@@ -103,7 +114,14 @@ body {
 #app .el-input__inner {
   border-radius: 20px;
 }
-
+#phone-menu .el-icon-menu {
+  font-size: large;
+}
+.phone-menu-icon {
+  text-align:right;
+  padding-top:7%;
+  font-size:20px
+}
 /*#app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

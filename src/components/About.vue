@@ -4,8 +4,8 @@
     <el-col :span="18" :offset="3" >
       <el-card :body-style="{ padding: '0px', 'height': mainMinHeight + 'px' }">
         <el-row>
-          <el-col :span="9" style="padding-top:12%">
-            <div style="padding-left:40%">
+          <el-col :span="9" :xs="24" style="padding-top:12%">
+            <div style="text-align:center">
               <img src="../assets/imgs/about_me.png"
               style="height:100px;width:100px;border: 3px solid #ccc;border-radius:50%">
             </div>
@@ -26,7 +26,7 @@
             </div>
 
           </el-col>
-          <el-col :span="15" style="padding-top:8%;padding-right:5%">
+          <el-col :span="15" :xs="24" style="padding:8% 5% 0 5%">
             <div>
               <div><h3>About me</h3></div>
               <div>
