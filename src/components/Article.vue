@@ -12,10 +12,13 @@
 <script type="text/javascript">
 import showdown from "showdown"
 import Hljs from 'highlight.js'
-import {converterConfig} from "../config/config.js"
 export default {
   data() {
     return {
+      converterConfig: {
+        'tables': true,
+        'tasklists': true
+      },
       converter: "",
       htmlContent: "",
       loading: true
@@ -36,13 +39,13 @@ export default {
   },
   methods: {
     renderContent(content) {
-      let converter = this.converter || (new showdown.Converter(converterConfig))
+      let converter = this.converter || (new showdown.Converter(this.converterConfig))
       let html = converter.makeHtml(content || "")
       if(this.loading){
         this.loading = false
       }
       this.htmlContent = html
-      // hljs.highlightBlock( this.htmlContent )
+      this.converter = converter
     },
     refresh() {
       this.loading = true
@@ -93,6 +96,7 @@ export default {
 }
 
 #articleContent a {
+  text-decoration: none;
   color: #42B983; }
 #articleContent a.absent {
   color: #cc0000; }
