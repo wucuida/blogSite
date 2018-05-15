@@ -17,7 +17,8 @@ export default {
     return {
       converterConfig: {
         'tables': true,
-        'tasklists': true
+        'tasklists': true,
+        'openLinksInNewWindow': true
       },
       converter: "",
       htmlContent: "",

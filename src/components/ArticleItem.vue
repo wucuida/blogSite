@@ -54,10 +54,10 @@ export default {
       default: () => []
     }
   },
-	data() {
-		return {
-		}
-	},
+  data() {
+    return {
+    }
+  },
   computed: {
     createTime() {
       return dateFormat(new Date(this.article.create_time), "yyyy-MM-dd")

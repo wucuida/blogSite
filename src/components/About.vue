@@ -3,7 +3,7 @@
   <el-row id="about" v-loading="loading" element-loading-text="loading...">
     <el-col :span="18" :offset="3" >
       <el-card :body-style="{ padding: '0px', 'height': mainMinHeight + 'px' }">
-        <el-row>
+        <el-row v-show="!loading">
           <el-col :span="9" :xs="24" style="padding-top:12%">
             <div style="text-align:center">
               <img src="../assets/imgs/about_me.png"
@@ -20,8 +20,6 @@
               <i slot="reference" class="iconfont icon-weixin1" style="padding-right:8px">
               </i>
             </el-popover>
-
-
             <i class="iconfont icon-icon-zhihu"></i>
             </div>
 
@@ -96,7 +94,7 @@ export default {
   created() {
     setTimeout(() => {
       this.loading = false
-    }, 500)
+    }, 300)
   }
 }
 </script>
